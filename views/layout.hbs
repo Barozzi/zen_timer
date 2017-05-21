@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>{{title}}</title>
+	<!-- JQuery -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
+	<!-- semantic-ui -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.11.8/semantic.min.css" />
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.11.8/semantic.min.js"></script>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.10/components/icon.min.css" />
+	<!-- Firebase -->
+	<script src="https://www.gstatic.com/firebasejs/3.9.0/firebase.js"></script>
+	<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.14.9/react.js"></script> -->
+	<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.14.9/react-dom.js"></script> -->
+	<!-- App -->
+	<script src="/javascripts/zen_timer.js"></script>
+	<script src="/javascripts/table.js"></script>
+	<link rel='stylesheet' href='/stylesheets/style.css' />
+</head>
+
+<body>
+
+	<div class="ui secondary menu">
+		<a class="item" href="\"><i class="bicycle icon"></i></a>
+		<div class="right text menu">
+			<a id="signin-link" class="item" href="#"> <i class="user icon"></i></a>
+			<!-- <a class="item" href="/signin"> <i class="user icon"></i></a> -->
+			<span id="user-name" class="item"></span>
+		</div>
+	</div>
+
+	<script>
+		// Initialize Firebase
+		var config = {
+			apiKey: "AIzaSyDZTh4SiM8RxsXbAG1yfma1ub1rMll2FVU",
+			authDomain: "devtimer-a7c2e.firebaseapp.com",
+			databaseURL: "https://devtimer-a7c2e.firebaseio.com",
+			projectId: "devtimer-a7c2e",
+			storageBucket: "devtimer-a7c2e.appspot.com",
+			messagingSenderId: "292162579140"
+		};
+		firebase.initializeApp(config);
+	</script>
+
+	{{{body}}}
+	<div class="spacer">
+		&nbsp;
+	</div>
+</body>
+
+</html>

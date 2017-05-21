@@ -1,0 +1,36 @@
+<div class="center-content">
+	<h1>{{title}}</h1>
+	<p>&nbsp;</p>
+	<p class="message">Establish a session to enable cloud storage.</p>
+	<p class="message">All things are transitory, but your work notes should be less transitory.</p>
+
+	<div id="warning-area">
+
+	</div>
+</div>
+
+<div id="signing-area">
+	<div id="signin-form" class="ui container spacer">
+		<div class="ui labeled input" id="email-input-field">
+			<div class="ui label">
+				email:&nbsp;&nbsp;&nbsp;
+			</div>
+			<input type="text" id="email-input" name="user-email" placeholder="">
+		</div>
+		<br />
+		<br />
+		<div class="ui labeled input" id="password-input-field">
+			<div class="ui label">
+				Password:
+			</div>
+			<input type="password" id="password-input" name="user-password" placeholder="">
+		</div>
+		<br />
+		<br />
+		<button type="button" id="signin-button" class="ui button" name="signin-button">Sign In</button>
+		<button type="button" id="create-user-button" class="ui button" name="create-user-button">Create Account</button>
+		<button type="button" id="signout-button" class="ui button" name="signout-button">Sign Out</button>
+	</div>
+</div>
+
+<script src="/javascripts/auth.js"></script>

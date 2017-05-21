@@ -1,0 +1,70 @@
+@import url('https://fonts.googleapis.com/css?family=Oxygen');
+
+body {
+     padding: 50px;
+     font-family: 'Oxygen', sans-serif;
+     background-color: #FAF3E6;
+}
+
+a {
+     color: #ABCF94;
+}
+
+.hide {
+	display: none !important;
+}
+
+.table-total {
+	border-top: 1px solid #d4d4d5;
+	background: #f0f0f0;
+}
+
+.warning-header {
+	padding: 12px;
+}
+
+.section {
+     background-color: #ABCF94;
+     padding-top: 8px;
+     padding-bottom: 14px;
+     padding-left: 3px;
+     padding-right: 3px;
+     border-radius: .25rem;
+}
+
+.center-content {
+     text-align: center;
+}
+
+.message {
+     font-size: 14px;
+     font-style: italic;
+}
+
+.spacer {
+     padding-top: 60px;
+     padding-bottom: 30px;
+}
+
+.session-column {
+	text-align: center !important;
+}
+
+.table-time {
+     width: 20%;
+}
+
+.table-intention {
+     width: 30%;
+}
+
+.table-delete {
+     width: 20px;
+}
+
+.delete-button {
+	margin: 0 !important;
+}
+
+.delete-icon {
+}
