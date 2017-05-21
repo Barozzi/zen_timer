@@ -31,6 +31,9 @@
 ################################################################################
 # Complete Issues
 
+### Put project under source control
+5/21/2017 Sunday
+
 ### BUG: if you trigger the signing-modal then the timer modal fails to show the counter or the message
 - Idea: switch frlm Dimmer to second modal
 - Complete: I swapped the dimm area for a second modal and that did the trick

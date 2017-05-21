@@ -35,12 +35,12 @@ $(document).ready(function () {
 	firebase.database().ref("tableData/" + uid)
 		.orderByChild("date").equalTo(today)
 		.on("value", snap => {
-		console.log("SNAP: " + JSON.stringify(snap.val()));
-		if (snap.val()) {
-			window.tableData = snap.val();
-			mountTable(generateTable(generateTableRows(window.tableData)));
-		}
-	});
+			console.log("SNAP: " + JSON.stringify(snap.val()));
+			if (snap.val()) {
+				window.tableData = snap.val();
+				mountTable(generateTable(generateTableRows(window.tableData)));
+			}
+		});
 
 	// firebase.database().ref("tableData")
 	// 	.orderByChild("uid").equalTo(uid)
@@ -63,7 +63,7 @@ function addAchievement() {
 		intention: $("#intention-input").val(),
 		achievement: $("#achievement-input").val(),
 		date: new Date().toLocaleDateString(),
-		time:  new Date().toLocaleTimeString()
+		time: new Date().toLocaleTimeString()
 	};
 	// reset input fields
 	$("#intention-input").val("");
@@ -92,12 +92,15 @@ function writeNewTableData(newData) {
 
 function remove(key) {
 	if (key === null) return;
-	var uid = firebase.auth().currentUser.uid;
-	delete window.tableData[key];
-	mountTable(generateTable(generateTableRows(window.tableData)));
-	var updates = {};
-	updates['/tableData/' + uid +"/"+ key] = null;
-	return firebase.database().ref().update(updates);
+	var doRemove = confirm("Remove this row?");
+	if (doRemove) {
+		var uid = firebase.auth().currentUser.uid;
+		delete window.tableData[key];
+		mountTable(generateTable(generateTableRows(window.tableData)));
+		var updates = {};
+		updates['/tableData/' + uid + "/" + key] = null;
+		return firebase.database().ref().update(updates);
+	}
 }
 
 function mountTable(tableHtml) {
@@ -151,17 +154,17 @@ function generateTableRows(tableData) {
 		rows.push(
 			[
 				"<tr class='" + TR_CLASS + "'>",
-				(isNewGroup) ? "<td rowspan='" + achievementsThisSession + "' class='session-column'>"+icons[Number(currentRow.icon)]+"</td>" : "",
+				(isNewGroup) ? "<td rowspan='" + achievementsThisSession + "' class='session-column'>" + icons[Number(currentRow.icon)] + "</td>" : "",
 				"<td class='" + TD_TIME + "'>" + currentRow.date + " " + currentRow.time + "</td>",
 				"<td class='" + TD_INTENTION + "'>" + currentRow.intention + "</td>",
 				"<td class='" + TD_CLASS + "'>" + currentRow.achievement + "</td>",
-				"<td class='" + TD_DELETE + "'><div id='delete-row-" + key + "' class='ui button' onclick='remove(\""+key+"\")'><i class='remove icon delete-icon delete-button'></i></div></td>",
+				"<td class='" + TD_DELETE + "'><div id='delete-row-" + key + "' class='ui button' onclick='remove(\"" + key + "\")'><i class='remove icon delete-icon delete-button'></i></div></td>",
 				"</tr>"
 			].join('\n')
 		);
 	}
 	// rows.push("<tr><td class='table-total' colspan=5>"+rows.length+"</td></tr>");
-	rows.push("<tr><td class='table-total' colspan=5>"+currentSession+"</td></tr>");
+	rows.push("<tr><td class='table-total' colspan=5>" + currentSession + "</td></tr>");
 	window.currentSession = currentSession;
 	return rows.join('\n');
 }
