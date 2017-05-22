@@ -6,14 +6,13 @@ $(document).ready(function () {
 		$("#signin-modal").modal("show");
 	});
 	$("#dimm-button").toggle();
-	$("#inspiration").html(rockPaperScissorsLizardSpock() + "<br><br>" +getInspiration());
-	// $("#achievement-area").hide();
+	// $("#inspiration").html(rockPaperScissorsLizardSpock() + "<br><br>" +getInspiration());
 });
 
 
 
 function timesUp() {
-	var audio = new Audio('/sounds/tinsha.wav');
+	// var audio = new Audio('/sounds/tinsha.wav');
 	$("#start-button").toggle();
 	$("#dimm-button").toggle();
 	notifyUser();
@@ -63,6 +62,7 @@ function writeNewTableData(newData) {
 }
 
 function decrementCounter() {
+	console.log('dec counter');
 	var remaining = $("#timer").text();
 	if (remaining == "00:00") {
 		timesUp();

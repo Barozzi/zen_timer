@@ -23,19 +23,19 @@ $(document).ready(function () {
 	window.zenTimerState.tableData = {};
 	var uid = $.cookie("uid");
 	const today = new Date().toLocaleDateString();
-	console.log("cookie.uid" + $.cookie("uid"));
-	console.log("uid " + uid);
 
 	firebase.database().ref("tableData/" + uid)
 		.orderByChild("date").equalTo(today)
 		.on("value", snap => {
-			console.log("SNAP: " + JSON.stringify(snap.val()));
+			// console.log("SNAP: " + JSON.stringify(snap.val()));
 			if (snap.val()) {
 				window.zenTimerState.tableData = snap.val();
 				mountTable(generateTable(generateTableRows(window.zenTimerState.tableData)));
 			}
 		});
 });
+
+
 
 // called via button click
 function addAchievement() {

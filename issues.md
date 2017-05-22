@@ -2,6 +2,8 @@
 
 # Release_001
 
+### E023 Enhancement: On page load, check the times stamp on the last session to determine if a session should be resumed
+
 ### E022 Enhancement: Hide input fields until there is an active session in window.zenTimerState.currentWorkSession
 
 ### E021 Enhancement: NPM Uninstall Mongo and Monk
