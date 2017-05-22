@@ -1,6 +1,7 @@
 // jshint esversion: 6
 
 $(document).ready(function () {
+	window.zenTimerState = {};
 	$("#signin-link").click(function() {
 		$("#signin-modal").modal("show");
 	});
@@ -15,24 +16,50 @@ function timesUp() {
 	var audio = new Audio('/sounds/tinsha.wav');
 	$("#start-button").toggle();
 	$("#dimm-button").toggle();
-	// $("body").dimmer("toggle");
-	// $("#inspiration").html(rockPaperScissorsLizardSpock() + "<br><br>" +getInspiration());
-	notifyMe();
+	notifyUser();
 	audio.play();
 }
 
 function startTimer(time) {
-	// $("#achievement-area").show();
-	window.currentSession ++;
 	var remaining = "25:00";
-	// $("body").dimmer("toggle");
-	$("#inspiration-timer-modal").modal("show");
 	$("#timer").html(remaining);
 	$("#timer-dimmer").html(remaining);
 	$("#start-button").toggle();
 	$("#dimm-button").toggle();
 	$("#inspiration").html(rockPaperScissorsLizardSpock() + "<br><br>" +getInspiration());
+	createNewWorkSession();
+	dimmPage();
 	setTimeout(decrementCounter, 1000);
+}
+
+function createNewWorkSession() {
+	let uid = $.cookie("uid");
+	if (!uid) return; // only save data for logged in users
+	let newWorkSession = {
+		date: new Date().toLocaleDateString(),
+		time: new Date().toLocaleTimeString(),
+		icon: window.zenTimerState.icon,
+		inspiration: window.zenTimerState.inspiration
+	};
+	let newWorkSessionKey = firebase.database().ref("tableData/" + uid).push().key;
+	window.zenTimerState.currentWorkSession = newWorkSessionKey;
+	window.zenTimerState.currentWorkSessionStart = new Date();
+	let updates = {};
+	updates['/tableData/' + uid + "/" + newWorkSessionKey] = newWorkSession;
+	return firebase.database().ref().update(updates);
+}
+
+// for reference snipped from table,js - TO DELETE
+function writeNewTableData(newData) {
+	// Set uid for post
+	var uid = firebase.auth().currentUser.uid;
+	newData.uid = uid;
+	var newTableDataKey = firebase.database().ref("tableData/" + uid).push().key; // TODO update this
+
+	// Write the new post's data simultaneously in the posts list and the user's post list.
+	var updates = {};
+	updates['/tableData/' + uid + "/" + newTableDataKey] = newData;
+	return firebase.database().ref().update(updates);
 }
 
 function decrementCounter() {
@@ -59,11 +86,10 @@ function zeroPad(num) {
 }
 
 function dimmPage() {
-	// $("body").dimmer("toggle");
 	$("#inspiration-timer-modal").modal("show");
 }
 
-function notifyMe() {
+function notifyUser() {
   // Let's check if the browser supports notifications
   if (!("Notification" in window)) {
     alert("zen_timer: It is time to pause in reflection.");
@@ -92,25 +118,25 @@ function notifyMe() {
 function rockPaperScissorsLizardSpock() {
 	var icons = [
 		'<i class="hand lizard icon"></i>',
-		'<i class="hand peace icon"></i>',
 		'<i class="hand paper icon"></i>',
 		'<i class="hand rock icon"></i>',
 		'<i class="hand scissors icon"></i>',
 		'<i class="hand spock icon"></i>'
 	];
 	var index = Math.floor(Math.random() * icons.length);
-	window.currentIcon = index;
+	window.zenTimerState.icon = icons[index];
 	return icons[index];
 }
 
 function getInspiration() {
+	// EM dash  is \u2014
 	var quotes = [
 		"Be the ball.",
 		"The project of a thousand hours, begins with a single click.",
 		"I am Groot.",
 		"You're just like Kevin Bacon.",
-		"I am a leaf on the wind - watch how I soar",
-		"Want me to make that modem sound? You know -- for old times sake?",
+		"I am a leaf on the wind \u2014 watch how I soar",
+		"Want me to make that modem sound? You know \u2014 for old times sake?",
 		"If you want something in this world. Go get it. Period.",
 		"Time for some thrillin' heroics.",
 		"Be excellent to each other",
@@ -167,5 +193,6 @@ function getInspiration() {
 		"You are what Marcellus Wallace looks like."
 	];
 	var index = Math.floor(Math.random() * quotes.length);
+	window.zenTimerState.inspiration = quotes[index];
 	return quotes[index];
 }

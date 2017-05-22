@@ -1,10 +1,5 @@
 // jshint esversion: 6
 
-// TODO - filter by uid - DONE
-// TODO - filter by today - DONE
-// TODO - display table with data if data exists on page load - DONE
-// TODO - after auth navigate to the main page
-
 /*
 
 firebase.database().ref("tableData")  // connect to the tableData table
@@ -25,8 +20,7 @@ firebase.database().ref("tableData")
  * @mountsTo DIV with id=achievement-table
  */
 $(document).ready(function () {
-	window.tableData = [];
-	window.currentSession = 0;
+	window.zenTimerState.tableData = {};
 	var uid = $.cookie("uid");
 	const today = new Date().toLocaleDateString();
 	console.log("cookie.uid" + $.cookie("uid"));
@@ -37,68 +31,46 @@ $(document).ready(function () {
 		.on("value", snap => {
 			console.log("SNAP: " + JSON.stringify(snap.val()));
 			if (snap.val()) {
-				window.tableData = snap.val();
-				mountTable(generateTable(generateTableRows(window.tableData)));
+				window.zenTimerState.tableData = snap.val();
+				mountTable(generateTable(generateTableRows(window.zenTimerState.tableData)));
 			}
 		});
-
-	// firebase.database().ref("tableData")
-	// 	.orderByChild("uid").equalTo(uid)
-	// 	.orderByChild("date").equalTo(today)
-	// 	.on("value", snap => {
-	// 	console.log("SNAP: " + JSON.stringify(snap.val()));
-	// 	if (snap.val()) {
-	// 		window.tableData = snap.val();
-	// 		mountTable(generateTable(generateTableRows(window.tableData)));
-	// 	}
-	// });
 });
 
 // called via button click
 function addAchievement() {
 	// get data from input fields
 	var newData = {
-		session: window.currentSession,
-		icon: window.currentIcon || 0,
-		intention: $("#intention-input").val(),
-		achievement: $("#achievement-input").val(),
+		session: window.zenTimerState.currentWorkSession,
+		icon: window.zenTimerState.icon || "",
+		intention: $("#intention-input").val() || "",
+		achievement: $("#achievement-input").val() || "",
 		date: new Date().toLocaleDateString(),
 		time: new Date().toLocaleTimeString()
 	};
 	// reset input fields
 	$("#intention-input").val("");
 	$("#achievement-input").val("");
-	// add input data to datModel
-	// window.tableData.push(newData); // TODO - treat as object not array
 	// persist data to profile
-	writeNewTableData(newData);
-	// mount table
-	mountTable(generateTable(generateTableRows(window.tableData)));
+	return writeNewTableData(newData);
 }
 
 function writeNewTableData(newData) {
-	// Get a key for a new Post.
-	// var newTableDataKey = firebase.database().ref().child('tableData').push().key;
-	// Set uid for post
 	var uid = firebase.auth().currentUser.uid;
 	newData.uid = uid;
 	var newTableDataKey = firebase.database().ref("tableData/" + uid).push().key;
-
-	// Write the new post's data simultaneously in the posts list and the user's post list.
 	var updates = {};
-	updates['/tableData/' + uid + "/" + newTableDataKey] = newData;
+	updates['/tableData/' + uid + "/" + window.zenTimerState.currentWorkSession + "/achievements/" + newTableDataKey] = newData;
 	return firebase.database().ref().update(updates);
 }
 
-function remove(key) {
-	if (key === null) return;
+function remove(achievementPath) {
+	if (achievementPath === null) return;
 	var doRemove = confirm("Remove this row?");
 	if (doRemove) {
 		var uid = firebase.auth().currentUser.uid;
-		delete window.tableData[key];
-		mountTable(generateTable(generateTableRows(window.tableData)));
 		var updates = {};
-		updates['/tableData/' + uid + "/" + key] = null;
+		updates['/tableData/' + uid + "/" + achievementPath] = null;
 		return firebase.database().ref().update(updates);
 	}
 }
@@ -128,51 +100,47 @@ function generateTable(tableRows) {
 }
 
 function generateTableRows(tableData) {
-	var icons = [
-		'<i class="hand lizard icon"></i>',
-		'<i class="hand peace icon"></i>',
-		'<i class="hand paper icon"></i>',
-		'<i class="hand rock icon"></i>',
-		'<i class="hand scissors icon"></i>',
-		'<i class="hand spock icon"></i>'
-	];
-	var TD_CLASS = "";
-	var TR_CLASS = "";
-	var TD_TIME = "table-time";
-	var TD_INTENTION = "table-intention";
-	var TD_DELETE = "table-delete";
-	var rows = [];
-	var currentSession = 0;
-	for (var key in tableData) {
-		var achievementsThisSession;
-		var currentRow = tableData[key];
-		var isNewGroup = (currentRow.session > currentSession) || (rows.length === 0);
-		if (isNewGroup) {
-			currentSession = currentRow.session;
-			achievementsThisSession = calculateAchievementsThisSession(tableData, currentSession);
-		}
-		rows.push(
-			[
+	let TD_CLASS = "";
+	let TR_CLASS = "";
+	let TD_TIME = "table-time";
+	let TD_INTENTION = "table-intention";
+	let TD_DELETE = "table-delete";
+	let rows = [];
+	for (let key in tableData) {
+		// First level are the workSessions
+		let currentRow = tableData[key];
+		let achievementCount = (currentRow.achievements) ? Object.keys(currentRow.achievements).length : 0;
+		if (achievementCount === 0) {
+			// Add an empty row to indicate there was a session with no logged achievements
+			rows.push([
 				"<tr class='" + TR_CLASS + "'>",
-				(isNewGroup) ? "<td rowspan='" + achievementsThisSession + "' class='session-column'>" + icons[Number(currentRow.icon)] + "</td>" : "",
+				"<td class='session-column'>" + currentRow.icon + "</td>",
 				"<td class='" + TD_TIME + "'>" + currentRow.date + " " + currentRow.time + "</td>",
-				"<td class='" + TD_INTENTION + "'>" + currentRow.intention + "</td>",
-				"<td class='" + TD_CLASS + "'>" + currentRow.achievement + "</td>",
-				"<td class='" + TD_DELETE + "'><div id='delete-row-" + key + "' class='ui button' onclick='remove(\"" + key + "\")'><i class='remove icon delete-icon delete-button'></i></div></td>",
+				"<td class='" + TD_INTENTION + "'>&nbsp;</td>",
+				"<td class='" + TD_CLASS + "'>&nbsp;</td>",
+				"<td>&nbsp;</td>",
 				"</tr>"
-			].join('\n')
-		);
+			].join('\n'));
+		} else {
+			// Display all achievements as structured table rows
+			for (let achievementKey in currentRow.achievements) {
+				let firstKey = Object.keys(currentRow.achievements)[0];
+				let isNewGroup = (firstKey === achievementKey);
+				let currentAchievement = currentRow.achievements[achievementKey];
+				rows.push(
+					[
+						"<tr class='" + TR_CLASS + "'>",
+						(isNewGroup) ? "<td rowspan='" + achievementCount + "' class='session-column'>" + currentAchievement.icon + "</td>" : "",
+						"<td class='" + TD_TIME + "'>" + currentAchievement.date + " " + currentAchievement.time + "</td>",
+						"<td class='" + TD_INTENTION + "'>" + currentAchievement.intention + "</td>",
+						"<td class='" + TD_CLASS + "'>" + currentAchievement.achievement + "</td>",
+						"<td class='" + TD_DELETE + "'><div id='delete-row-" + achievementKey + "' class='ui button' onclick='remove(\"" + currentAchievement.session + "/achievements/" + achievementKey + "\")'><i class='remove icon delete-icon delete-button'></i></div></td>",
+						"</tr>"
+					].join('\n'));
+			}
+		}
 	}
-	// rows.push("<tr><td class='table-total' colspan=5>"+rows.length+"</td></tr>");
-	rows.push("<tr><td class='table-total' colspan=5>" + currentSession + "</td></tr>");
-	window.currentSession = currentSession;
+	let workSessionCount = (tableData) ? Object.keys(tableData).length : 0;
+	rows.push("<tr><td class='table-total' colspan=5>" + workSessionCount + "</td></tr>");
 	return rows.join('\n');
-}
-
-function calculateAchievementsThisSession(tableData, session) {
-	var count = 0;
-	for (var key in tableData) {
-		if (tableData[key].session === session) count++;
-	}
-	return count;
 }

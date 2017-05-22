@@ -66,7 +66,8 @@ $(document).ready(function () {
 
 	firebase.auth().onAuthStateChanged(firebaseUser => {
 		if (firebaseUser) {
-			window.user = firebaseUser;
+			if (window.zenTimerState) window.zenTimerState.user = firebaseUser;
+			// window.user = firebaseUser;
 			$("#user-name").html(firebaseUser.email);
 			$("#signin-button").hide();
 			$("#create-user-button").hide();
@@ -75,7 +76,8 @@ $(document).ready(function () {
 			$("#password-input-field").hide();
 			$.cookie("uid", firebaseUser.uid);
 		} else {
-			window.user = null;
+			if (window.zenTimerState) window.zenTimerState.user = null;
+			// window.user = null;
 			$("#user-name").html("");
 			$("#signin-button").show();
 			$("#create-user-button").show();
