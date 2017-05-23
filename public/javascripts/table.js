@@ -1,18 +1,5 @@
 // jshint esversion: 6
 
-/*
-
-firebase.database().ref("tableData")  // connect to the tableData table
-	.orderByChild("intention") // query on the field 'intention'
-	.equalTo('foo')  // Search for all records with an intention value equal to 'foo'
-	.once("value", snap => console.log(JSON.stringify(snap.val())));  // run this query once and log results to the console.
-
-firebase.database().ref("tableData")
-	.orderByChild("uid").equalTo(uid)
-	.once("value", snap => console.log(JSON.stringify(snap.val())));
-*/
-
-
 /**
  * GB
  * @name TableComponent
@@ -34,7 +21,6 @@ $(document).ready(function () {
 			}
 		});
 });
-
 
 
 // called via button click

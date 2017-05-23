@@ -67,7 +67,6 @@ $(document).ready(function () {
 	firebase.auth().onAuthStateChanged(firebaseUser => {
 		if (firebaseUser) {
 			if (window.zenTimerState) window.zenTimerState.user = firebaseUser;
-			// window.user = firebaseUser;
 			$("#user-name").html(firebaseUser.email);
 			$("#signin-button").hide();
 			$("#create-user-button").hide();
@@ -77,7 +76,6 @@ $(document).ready(function () {
 			$.cookie("uid", firebaseUser.uid);
 		} else {
 			if (window.zenTimerState) window.zenTimerState.user = null;
-			// window.user = null;
 			$("#user-name").html("");
 			$("#signin-button").show();
 			$("#create-user-button").show();
@@ -88,14 +86,3 @@ $(document).ready(function () {
 		}
 	});
 });
-
-function toggleSigninButtons() {
-}
-
-// auth.signInWithEmailAndPassword(email, password);
-
-// auth.createUserWithEmailAndPassword(email, password);
-
-// auth.onAuthStateChange(firebaseUser => { });
-
-//firebase.auth().signOut();

@@ -2,13 +2,12 @@
 
 $(document).ready(function () {
 	window.zenTimerState = {};
-	$("#signin-link").click(function() {
+	$("#signin-link").click(function () {
 		$("#signin-modal").modal("show");
 	});
 	$("#dimm-button").toggle();
 	// $("#inspiration").html(rockPaperScissorsLizardSpock() + "<br><br>" +getInspiration());
 });
-
 
 
 function timesUp() {
@@ -25,7 +24,7 @@ function startTimer(time) {
 	$("#timer-dimmer").html(remaining);
 	$("#start-button").toggle();
 	$("#dimm-button").toggle();
-	$("#inspiration").html(rockPaperScissorsLizardSpock() + "<br><br>" +getInspiration());
+	$("#inspiration").html(rockPaperScissorsLizardSpock() + "<br><br>" + getInspiration());
 	createNewWorkSession();
 	dimmPage();
 	setTimeout(decrementCounter, 1000);
@@ -45,19 +44,6 @@ function createNewWorkSession() {
 	window.zenTimerState.currentWorkSessionStart = new Date();
 	let updates = {};
 	updates['/tableData/' + uid + "/" + newWorkSessionKey] = newWorkSession;
-	return firebase.database().ref().update(updates);
-}
-
-// for reference snipped from table,js - TO DELETE
-function writeNewTableData(newData) {
-	// Set uid for post
-	var uid = firebase.auth().currentUser.uid;
-	newData.uid = uid;
-	var newTableDataKey = firebase.database().ref("tableData/" + uid).push().key; // TODO update this
-
-	// Write the new post's data simultaneously in the posts list and the user's post list.
-	var updates = {};
-	updates['/tableData/' + uid + "/" + newTableDataKey] = newData;
 	return firebase.database().ref().update(updates);
 }
 
@@ -90,29 +76,26 @@ function dimmPage() {
 }
 
 function notifyUser() {
-  // Let's check if the browser supports notifications
-  if (!("Notification" in window)) {
-    alert("zen_timer: It is time to pause in reflection.");
-  }
+	// Let's check if the browser supports notifications
+	if (!("Notification" in window)) {
+		alert("zen_timer: It is time to pause in reflection.");
+	}
 
-  // Let's check whether notification permissions have already been granted
-  else if (Notification.permission === "granted") {
-    // If it's okay let's create a notification
-    var notification = new Notification("zen_timer: You have attained completeness.");
-  }
+	// Let's check whether notification permissions have already been granted
+	else if (Notification.permission === "granted") {
+		// If it's okay let's create a notification
+		var notification = new Notification("zen_timer: You have attained completeness.");
+	}
 
-  // Otherwise, we need to ask the user for permission
-  else if (Notification.permission !== "denied") {
-    Notification.requestPermission(function (permission) {
-      // If the user accepts, let's create a notification
-      if (permission === "granted") {
-        var notification = new Notification("zen_timer: You have attained completeness.");
-      }
-    });
-  }
-
-  // At last, if the user has denied notifications, and you
-  // want to be respectful there is no need to bother them any more.
+	// Otherwise, we need to ask the user for permission
+	else if (Notification.permission !== "denied") {
+		Notification.requestPermission(function (permission) {
+			// If the user accepts, let's create a notification
+			if (permission === "granted") {
+				var notification = new Notification("zen_timer: You have attained completeness.");
+			}
+		});
+	}
 }
 
 function rockPaperScissorsLizardSpock() {
