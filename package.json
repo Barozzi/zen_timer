@@ -6,9 +6,6 @@
     "start": "node ./bin/www"
   },
   "dependencies": {
-    "mongo": "^0.1.0",
-    "mongodb": "^2.2.26",
-    "monk": "^4.0.0",
     "semantic-ui-dimmer": "^2.2.10",
     "serve-favicon": "~2.4.2"
   },
@@ -18,7 +15,6 @@
     "morgan": "~1.8.1",
     "body-parser": "~1.17.1",
     "cookie-parser": "~1.4.3",
-    "hbs": "~4.0.1",
-    "webpack": "^2.5.1"
+    "hbs": "~4.0.1"
   }
 }

@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>zen_timer</title>
+	<!-- JQuery -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
+	<!-- semantic-ui -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.11.8/semantic.min.css" />
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.11.8/semantic.min.js"></script>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.10/components/icon.min.css" />
+	<!-- Firebase -->
+	<script src="https://www.gstatic.com/firebasejs/3.9.0/firebase.js"></script>
+	<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.14.9/react.js"></script> -->
+	<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/react/0.14.9/react-dom.js"></script> -->
+	<!-- App -->
+	<script src="/javascripts/zen_timer.js"></script>
+	<script src="/javascripts/table.js"></script>
+	<link rel='stylesheet' href='/stylesheets/style.css' />
+</head>
+
+<body>
+
+	<div class="ui secondary menu">
+		<a class="item" href="\"><i class="bicycle icon"></i></a>
+		<div class="right text menu">
+			<a id="signin-link" class="item" href="#"> <i class="user icon"></i></a>
+			<!-- <a class="item" href="/signin"> <i class="user icon"></i></a> -->
+			<span id="user-name" class="item"></span>
+		</div>
+	</div>
+
+	<script>
+		// Initialize Firebase
+		var config = {
+			apiKey: "AIzaSyDZTh4SiM8RxsXbAG1yfma1ub1rMll2FVU",
+			authDomain: "devtimer-a7c2e.firebaseapp.com",
+			databaseURL: "https://devtimer-a7c2e.firebaseio.com",
+			projectId: "devtimer-a7c2e",
+			storageBucket: "devtimer-a7c2e.appspot.com",
+			messagingSenderId: "292162579140"
+		};
+		firebase.initializeApp(config);
+	</script>
+
+	<div class="center-content">
+		<h1>zen_timer</h1>
+		<p>&nbsp;</p>
+		<p class="message">To achieve your highest level of productivity</p>
+		<p class="message">Simply begin again</p>
+		<h1 id="timer"></h1>
+		<button id="start-button" class="ui button" onclick="startTimer()">Start Work</button>
+		<button id="dimm-button" class="ui button" onclick="dimmPage()">Return to Focus</button>
+	</div>
+
+
+	<div class="spacer">
+		<h4 class="ui horizontal divider header">
+  <i class="bar chart icon"></i>
+ Actualized Achievments
+</h4>
+	</div>
+
+	<!-- Table Area -->
+	<div id="achievement-area">
+		<div id="achievement-form" class="ui container spacer">
+			<div class="ui labeled input">
+				<div class="ui label">
+					Intention:
+				</div>
+				<input type="text" id="intention-input" name="intention-input" placeholder="... attain oneness ...">
+			</div>
+			<div class="ui labeled input">
+				<div class="ui label">
+					Achievement:
+				</div>
+				<input type="text" id="achievement-input" name="achievement-input" placeholder="...">
+			</div>
+			<button type="button" id="add-achievement-button" class="ui button" onclick="addAchievement()" name="button">Note Achievement</button>
+		</div>
+		<div id="achievement-table">Sign in by clicking <i class="icon user"></i> above to begin storing achievements.</div>
+	</div>
+
+	<!-- inspiration timer modal -->
+	<div class="ui modal basic" id="inspiration-timer-modal">
+		<div class="content center-content">
+			<h2 id="inspiration">
+			<!-- zen_timer.js loads content here -->
+		</h2>
+			<h1 id="timer-dimmer">
+			<!-- zen_timer.js loads content here -->
+		</h1>
+		</div>
+	</div>
+
+
+	<!-- Signing form modal -->
+	<div class="ui modal" id="signin-modal">
+		<div class="ui massive message center-content">
+			<h1>zen_timer</h1>
+			<p>&nbsp;</p>
+			<p class="message">Establish a session to enable cloud storage.</p>
+			<p class="message">All things are transitory; your work notes should be less transitory.</p>
+
+		</div>
+		<div id="warning-area" class="center-content"></div>
+
+		<div id="container signing-area">
+			<div id="signin-form" class="ui container spacer center-content">
+				<div class="ui labeled input" id="email-input-field">
+					<div class="ui label">
+						email:&nbsp;&nbsp;&nbsp;
+					</div>
+					<input type="text" id="email-input" name="user-email" placeholder="">
+				</div>
+				<div class="ui labeled input" id="password-input-field">
+					<div class="ui label">
+						Password:
+					</div>
+					<input type="password" id="password-input" name="user-password" placeholder="">
+				</div>
+				<br />
+				<br />
+				<div class="center-content">
+					<button type="button" id="signin-button" class="ui button" name="signin-button">Sign In</button>
+					<button type="button" id="create-user-button" class="ui button" name="create-user-button">Create Account</button>
+					<button type="button" id="signout-button" class="ui button" name="signout-button">Sign Out</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script src="/javascripts/auth.js"></script>
+	<script src="/javascripts/table.js"></script>
+	<script src="/javascripts/auth.js"></script>
+
+	<div class="spacer">
+		&nbsp;
+	</div>
+</body>
+
+</html>
