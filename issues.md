@@ -1,6 +1,9 @@
 # zen_timer
 
 # Release_001
+### E024 Enhancement: Add a button to resume a session that had been interrupted by a refresh.
+- The button should only appear when there is a refresh and when the previous session has been determiend to not be complete.
+- By not kicking off the timer based on the call to Firebase, I can bypass the double execute bug.
 
 ### E023 Enhancement: On page load, check the times stamp on the last session to determine if a session should be resumed
 

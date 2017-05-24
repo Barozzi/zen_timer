@@ -15,7 +15,7 @@ function timesUp() {
 	$("#start-button").toggle();
 	$("#dimm-button").toggle();
 	notifyUser();
-	audio.play();
+	// audio.play();
 }
 
 function startTimer(time) {
