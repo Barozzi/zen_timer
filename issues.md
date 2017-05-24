@@ -9,8 +9,6 @@
 
 ### E022 Enhancement: Hide input fields until there is an active session in window.zenTimerState.currentWorkSession
 
-### E021 Enhancement: NPM Uninstall Mongo and Monk
-
 ### E011 Enhancement: Update all global state variables to a single global state object
 
 ### E014 Enhancement: Report View: allow user to enter start and end dates
@@ -20,6 +18,8 @@
 
 ################################################################################
 # Complete Issues
+
+### E021 Enhancement: NPM Uninstall Mongo and Monk
 
 ### B002 BUG: The session column is quirky. When adding and then deleting rows the count and icon type can get messes up.
 - should not be able to delete sessions. A session with no data should present next to an empty row
