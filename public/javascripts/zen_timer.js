@@ -48,7 +48,6 @@ function createNewWorkSession() {
 }
 
 function decrementCounter() {
-	console.log('dec counter');
 	var remaining = $("#timer").text();
 	if (remaining == "00:00") {
 		timesUp();

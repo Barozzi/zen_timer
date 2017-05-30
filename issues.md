@@ -5,6 +5,8 @@
 - The button should only appear when there is a refresh and when the previous session has been determiend to not be complete.
 - By not kicking off the timer based on the call to Firebase, I can bypass the double execute bug.
 
+### E024 Enhancement: Update UI to use bootstrap-material-design
+
 ### E023 Enhancement: On page load, check the times stamp on the last session to determine if a session should be resumed
 
 ### E022 Enhancement: Hide input fields until there is an active session in window.zenTimerState.currentWorkSession

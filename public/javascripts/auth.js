@@ -9,7 +9,6 @@ $(document).ready(function () {
 		const password = $("#password-input").val();
 		const promise = auth.signInWithEmailAndPassword(email, password);
 		promise.catch(e =>{
-			console.log(e);
 			$("#warning-area").html([
 				'<div class="ui negative message">',
 				'<div class="header warning-header">',
@@ -20,7 +19,6 @@ $(document).ready(function () {
 			].join('\n'));
 		});
 		promise.then(e => {
-			console.log(e);
 			$("#warning-area").html([
 				'<div class="ui success message">',
 				'<div class="header warning-header">',
@@ -37,7 +35,6 @@ $(document).ready(function () {
 		const password = $("#password-input").val();
 		const promise = auth.createUserWithEmailAndPassword(email, password);
 		promise.catch(e => {
-			console.log(e);
 			$("#warning-area").html([
 				'<div class="ui negative message">',
 				'<div class="header warning-header">',
@@ -47,7 +44,6 @@ $(document).ready(function () {
 				'</div>'
 			].join('\n'));
 		promise.then(e => {
-			console.log(e);
 			$("#warning-area").html([
 				'<div class="ui success message">',
 				'<div class="header warning-header">',
@@ -66,13 +62,18 @@ $(document).ready(function () {
 
 	firebase.auth().onAuthStateChanged(firebaseUser => {
 		if (firebaseUser) {
-			if (window.zenTimerState) window.zenTimerState.user = firebaseUser;
+			if (window.zenTimerState) {
+				window.zenTimerState.user = firebaseUser;
+			} else {
+				window.zenTimerState = { user: firebaseUser };
+			}
+			connectToTableData(firebaseUser.uid);
 			$("#user-name").html(firebaseUser.email);
 			$("#signin-button").hide();
 			$("#create-user-button").hide();
 			$("#signout-button").show();
-			$("#email-input-field").hide();
-			$("#password-input-field").hide();
+			$("#email-input").hide();
+			$("#password-input").hide();
 			$.cookie("uid", firebaseUser.uid);
 		} else {
 			if (window.zenTimerState) window.zenTimerState.user = null;
@@ -80,8 +81,8 @@ $(document).ready(function () {
 			$("#signin-button").show();
 			$("#create-user-button").show();
 			$("#signout-button").hide();
-			$("#email-input-field").show();
-			$("#password-input-field").show();
+			$("#email-input").show();
+			$("#password-input").show();
 			$.removeCookie("uid");
 		}
 	});

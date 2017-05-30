@@ -1,5 +1,183 @@
+@import url('https://fonts.googleapis.com/css?family=Oregano');
 @import url('https://fonts.googleapis.com/css?family=Oxygen');
 
+/* RGB */
+.base-color {
+	background-color: rgba(88, 77, 61, 1);
+}
+.accent-light {
+	background-color: rgba(149, 180, 106, 1);
+}
+.primary-color {
+	background-color: rgba(112, 146, 85, 1);
+}
+.accent-dark {
+	background-color: rgba(62, 86, 34, 1);
+}
+.primary-text-color {
+	color: rgba(203, 191, 122, 1);
+}
+
+.style-tron {
+	text-align: center;
+	font-family: 'Oregano', cursive;
+	background-color: rgba(112, 146, 85, 1);
+}
+
+a {
+	color: rgba(112, 146, 85, 1);
+}
+
+body {
+	background-color: rgba(88, 77, 61, 1);
+	font-family: "Oxygen", sans-serif;
+}
+.style-tron> p {
+	font-size: 1.5em;
+	padding-bottom: 0.8em;
+}
+
+.style-container {
+	background-color: rgba(112, 146, 85, 1);
+}
+
+h1 {
+	font-family: 'Oregano', cursive;
+	color: rgba(203, 191, 122, 1);
+	font-size: 68px;
+}
+
+.zen-bar {
+	font-family: 'Oregano', cursive;
+	color: rgba(62, 86, 34, 1);
+	background-color: rgba(149, 180, 106, 1);
+	border-radius: 70%;
+	padding-bottom: 1em;
+}
+
+.zen-btn {
+	background-color: rgba(149, 180, 106, 1);
+	font-family: 'Oregano', cursive;
+	font-weight: bold;
+	border-radius: 55%;
+}
+
+.zen-table-jumbo {
+	background-color: rgba(203, 191, 122, 1);
+
+}
+
+.zen-counter {
+	padding-top: .55em;
+	padding-bottom: .25em;
+}
+
+.zen-table {
+	padding-top: 0.03em;
+	/*border: 1px solid rgba(203, 191, 122, 1);*/
+}
+
+.zen-table-style {
+	width: 100%;
+	margin: 1em 0;
+	background:: rgba(112, 146, 85, 1);
+	border: 1px solid rgba(203, 191, 122, 1);
+	border-radius: .25rem;
+	border-spacing: 0;
+	border-collapse: collapse;
+	padding-top: 1em;
+}
+
+#achievement-table {
+	padding-top: 1em;
+}
+
+.center-content {
+     text-align: center;
+}
+
+#timer-dimmer #inspiration {
+	/*font-family: 'Oxygen', sans-serif;*/
+	font-family: 'Oregano', cursive;
+}
+
+.table-time {
+     width: 20%;
+}
+
+.table-intention {
+     width: 30%;
+}
+
+.table-delete {
+     width: 20px;
+}
+
+th {
+
+	background-color: rgba(62, 86, 34, 1) !important;
+}
+
+td {
+	background-color: rgba(112, 146, 85, 1) !important;
+
+}
+
+.table-total {
+	background-color: rgba(62, 86, 34, 1);
+}
+
+.table-time {
+     width: 20%;
+}
+
+.table-intention {
+     width: 30%;
+}
+
+.table-delete {
+     width: 20px;
+}
+
+.delete-button {
+	margin: 0 !important;
+}
+
+.session-column {
+	text-align: center !important;
+}
+
+.spacer {
+     padding-bottom: 1.5em;
+}
+
+.ui.table tr td {
+	border-left: 1px solid rgba(88, 77, 61, 1);
+}
+
+.ui.structured.celled.table tr td, .ui.structured.celled.table tr th {
+	border-left: 1px solid rgba(88, 77, 61, 1);
+	border-right: 1px solid rgba(88, 77, 61, 1);
+}
+
+.ui.table td, .ui.table th {
+	border-bottom: 1px solid rgba(88, 77, 61, 1);
+}
+
+.ui.table thead th {
+	border-bottom: 1px solid rgba(88, 77, 61, 1);
+	background: rgba(203, 191, 122, 1);
+}
+
+.ui.table {
+	background: rgba(62, 86, 34, 1);
+}
+
+.table th, .table td {
+	border-top: 1px solid rgba(88, 77, 61, 1);
+	border-bottom: 1px solid rgba(88, 77, 61, 1);
+}
+/*
 body {
      padding: 50px;
      font-family: 'Oxygen', sans-serif;
@@ -68,3 +246,4 @@ a {
 
 .delete-icon {
 }
+*/

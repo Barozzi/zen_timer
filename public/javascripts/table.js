@@ -9,19 +9,44 @@
 $(document).ready(function () {
 	window.zenTimerState.tableData = {};
 	var uid = $.cookie("uid");
-	const today = new Date().toLocaleDateString();
+	if (uid) connectToTableData(uid);
+});
 
+
+function connectToTableData(uid) {
+	let filterByDate = getDBqueryStartDate();
 	firebase.database().ref("tableData/" + uid)
-		.orderByChild("date").equalTo(today)
+		.orderByChild("date").startAt(filterByDate)
 		.on("value", snap => {
-			// console.log("SNAP: " + JSON.stringify(snap.val()));
 			if (snap.val()) {
 				window.zenTimerState.tableData = snap.val();
 				mountTable(generateTable(generateTableRows(window.zenTimerState.tableData)));
 			}
 		});
-});
+}
 
+function getDBqueryStartDate() {
+	let selected = $("#display-range-selector").val() || "Today";
+	let today = new Date();
+	let returnDate; // String
+	switch (selected) {
+		case "Week":
+			returnDate = new Date(today.setDate(today.getDate() -7)).toLocaleDateString();
+			break;
+		case "Month":
+			returnDate = new Date(today.setDate(today.getDate() -30)).toLocaleDateString();
+			break;
+		case "Year":
+			returnDate = new Date(today.setDate(today.getDate() -365)).toLocaleDateString();
+			break;
+		case "All":
+			returnDate = new Date("12/31/1971").toLocaleDateString();
+			break;
+		default:
+			returnDate = today.toLocaleDateString();
+	}
+	return returnDate;
+}
 
 // called via button click
 function addAchievement() {
@@ -71,7 +96,9 @@ function generateTable(tableRows) {
 		"<table class='" + TABLE_CLASS + "'>",
 		"<thead>",
 		"<tr>",
-		"<th class='session-column'>&nbsp;</th>",
+		"<th class='session-column'>",
+		generateDisplayRangeSelector(),
+		"</th>",
 		"<th>Time</th>",
 		"<th>Intention</th>",
 		"<th>Achievement</th>",
@@ -85,6 +112,28 @@ function generateTable(tableRows) {
 	].join('\n');
 }
 
+function generateDisplayRangeSelector() {
+	let selected = window.zenTimerState.displayRangeSelector;
+	const options = ["Today", "Week", "Month", "Year", "All" ];
+	let optionsHtml = [];
+	for (let index in options) {
+		let select = (options[index] === selected) ? "selected='selected'" : "";
+		optionsHtml.push("<option value'"+options[index]+"' "+select+">"+options[index]+"</option>");
+	}
+	return [
+		"<div style='text-align: left;'>",
+		"<label for='display-range-selector' style='text-align: left;'>Display by</label>",
+		"<select id='display-range-selector' class='form-control'>",
+		optionsHtml.join('\n'),
+		"</select>",
+		"</div>",
+		"<script>",
+		"$('#display-range-selector').change(function() { window.zenTimerState.displayRangeSelector = $('#display-range-selector').val(); if ($.cookie('uid')) connectToTableData( $.cookie('uid') )})",
+		"</script>"
+	].join('\n');
+
+}
+
 function generateTableRows(tableData) {
 	let TD_CLASS = "";
 	let TR_CLASS = "";
@@ -92,9 +141,12 @@ function generateTableRows(tableData) {
 	let TD_INTENTION = "table-intention";
 	let TD_DELETE = "table-delete";
 	let rows = [];
-	for (let key in tableData) {
+	let tableDataArray = [];
+	for (let key in tableData) { tableDataArray.push(tableData[key]); }
+	tableDataArray = tableDataArray.reverse();
+	for (let index in tableDataArray) {
 		// First level are the workSessions
-		let currentRow = tableData[key];
+		let currentRow = tableDataArray[index];
 		let achievementCount = (currentRow.achievements) ? Object.keys(currentRow.achievements).length : 0;
 		if (achievementCount === 0) {
 			// Add an empty row to indicate there was a session with no logged achievements
@@ -120,7 +172,7 @@ function generateTableRows(tableData) {
 						"<td class='" + TD_TIME + "'>" + currentAchievement.date + " " + currentAchievement.time + "</td>",
 						"<td class='" + TD_INTENTION + "'>" + currentAchievement.intention + "</td>",
 						"<td class='" + TD_CLASS + "'>" + currentAchievement.achievement + "</td>",
-						"<td class='" + TD_DELETE + "'><div id='delete-row-" + achievementKey + "' class='ui button' onclick='remove(\"" + currentAchievement.session + "/achievements/" + achievementKey + "\")'><i class='remove icon delete-icon delete-button'></i></div></td>",
+						"<td class='" + TD_DELETE + "'><div id='delete-row-" + achievementKey + "' class='btn btn-raised zen-btn' onclick='remove(\"" + currentAchievement.session + "/achievements/" + achievementKey + "\")'><i class='remove icon delete-icon delete-button'></i></div></td>",
 						"</tr>"
 					].join('\n'));
 			}
