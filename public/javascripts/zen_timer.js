@@ -5,10 +5,25 @@ $(document).ready(function () {
 	$("#signin-link").click(function () {
 		$("#signin-modal").modal("show");
 	});
-	$("#dimm-button").toggle();
-	// $("#inspiration").html(rockPaperScissorsLizardSpock() + "<br><br>" +getInspiration());
+	$("#dimm-button").hide();
 });
 
+
+function resumeSession() {
+	const minutesRemaining = 25 - (Math.floor((new Date() - window.zenTimerState.lastSessionStart) / 60000));
+	if (minutesRemaining < 1) {
+		startTimer();
+		return;
+	}
+	let remaining = zeroPad(minutesRemaining) + ":00";
+	$("#timer").html(remaining);
+	$("#timer-dimmer").html(remaining);
+	$("#dimm-button").show();
+	$("#resume-session-button").hide();
+	$("#inspiration").html(window.zenTimerState.icon + "<br><br>" + window.zenTimerState.inspiration);
+	dimmPage();
+	setTimeout(decrementCounter, 1000);
+}
 
 function timesUp() {
 	// var audio = new Audio('/sounds/tinsha.wav');

@@ -7,6 +7,7 @@
  * @mountsTo DIV with id=achievement-table
  */
 $(document).ready(function () {
+	if (!window.zenTimerState) window.zenTimerState = {};
 	window.zenTimerState.tableData = {};
 	var uid = $.cookie("uid");
 	if (uid) connectToTableData(uid);
@@ -113,7 +114,7 @@ function generateTable(tableRows) {
 }
 
 function generateDisplayRangeSelector() {
-	let selected = window.zenTimerState.displayRangeSelector;
+	let selected = window.zenTimerState.displayRangeSelector || "Today";
 	const options = ["Today", "Week", "Month", "Year", "All" ];
 	let optionsHtml = [];
 	for (let index in options) {
