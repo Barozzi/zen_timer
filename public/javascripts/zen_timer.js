@@ -6,11 +6,12 @@ $(document).ready(function () {
 		$("#signin-modal").modal("show");
 	});
 	$("#dimm-button").hide();
+	$("#add-achievement-button").hide();
 });
 
 
 function resumeSession() {
-	const minutesRemaining = 26 - (Math.floor((new Date() - window.zenTimerState.lastSessionStart) / 60000));
+	const minutesRemaining = 25 - (Math.floor((new Date() - window.zenTimerState.lastSessionStart) / 60000));
 	if (minutesRemaining < 1) {
 		startTimer();
 		return;
@@ -21,6 +22,7 @@ function resumeSession() {
 	$("#dimm-button").show();
 	$("#resume-session-button").hide();
 	$("#inspiration").html(window.zenTimerState.icon + "<br><br>" + window.zenTimerState.inspiration);
+	$("#add-achievement-button").show();
 	dimmPage();
 	setTimeout(decrementCounter, 1000);
 }
@@ -29,6 +31,7 @@ function timesUp() {
 	// var audio = new Audio('/sounds/tinsha.wav');
 	$("#start-button").toggle();
 	$("#dimm-button").toggle();
+	$("#resume-session-button").hide();
 	notifyUser();
 	// audio.play();
 }
@@ -37,6 +40,7 @@ function startTimer(time) {
 	var remaining = "25:00";
 	$("#timer").html(remaining);
 	$("#timer-dimmer").html(remaining);
+	$("#add-achievement-button").show();
 	$("#start-button").toggle();
 	$("#dimm-button").toggle();
 	$("#inspiration").html(rockPaperScissorsLizardSpock() + "<br><br>" + getInspiration());

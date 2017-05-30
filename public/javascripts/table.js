@@ -60,6 +60,14 @@ function addAchievement() {
 		date: new Date().toLocaleDateString(),
 		time: new Date().toLocaleTimeString()
 	};
+	if (!newData.intention && !newData.achievement) {
+		$.snackbar({
+			content: "Please add an Intention or Achievement.",
+			style: "snackbar",
+			timeout: 8000
+		});
+		return;
+	}
 	// reset input fields
 	$("#intention-input").val("");
 	$("#achievement-input").val("");
@@ -129,7 +137,8 @@ function generateDisplayRangeSelector() {
 		"</select>",
 		"</div>",
 		"<script>",
-		"$('#display-range-selector').change(function() { window.zenTimerState.displayRangeSelector = $('#display-range-selector').val(); if ($.cookie('uid')) connectToTableData( $.cookie('uid') )})",
+		"$('#display-range-selector').change(function() { window.zenTimerState.displayRangeSelector = $('#display-range-selector').val();",
+		"if ($.cookie('uid')) connectToTableData( $.cookie('uid') )})",
 		"</script>"
 	].join('\n');
 

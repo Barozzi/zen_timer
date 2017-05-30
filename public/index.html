@@ -7,6 +7,10 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
 
+	<!-- SnackbarJS -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/snackbarjs/1.1.0/snackbar.min.js"></script>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/snackbarjs/1.1.0/snackbar.css" />
+
 	<!-- semantic-ui -->
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.11.8/semantic.min.css" />
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/1.11.8/semantic.min.js"></script>
@@ -76,7 +80,8 @@
 					<input type="text" id="intention-input" class="form-control" placeholder="Intention">
 					<input type="text" id="achievement-input" class="form-control" placeholder="Achievement">
 				</div>
-				<div class="col-md-4 center-content"><a class="btn zen-btn btn-raised" onclick="addAchievement()" href="javascript:void(0)">Log Achievement</a></div>
+				<div id="add-achievement-button" class="col-md-4 center-content"><button class="btn zen-btn btn-raised" onclick="addAchievement()">Log Achievement</button></div>
+				<!-- <div class="col-md-4 center-content"><button class="btn zen-btn btn-raised" onclick="addAchievement()" href="javascript:void(0)">Log Achievement</button></div> -->
 			</div>
 			<div id="achievement-table">Poised for mindfull discovery...</div>
 		</div>
