@@ -10,7 +10,7 @@ $(document).ready(function () {
 
 
 function resumeSession() {
-	const minutesRemaining = 25 - (Math.floor((new Date() - window.zenTimerState.lastSessionStart) / 60000));
+	const minutesRemaining = 26 - (Math.floor((new Date() - window.zenTimerState.lastSessionStart) / 60000));
 	if (minutesRemaining < 1) {
 		startTimer();
 		return;
@@ -130,7 +130,6 @@ function getInspiration() {
 	var quotes = [
 		"Be the ball.",
 		"The project of a thousand hours, begins with a single click.",
-		"I am Groot.",
 		"You're just like Kevin Bacon.",
 		"I am a leaf on the wind \u2014 watch how I soar",
 		"Want me to make that modem sound? You know \u2014 for old times sake?",
@@ -171,10 +170,12 @@ function getInspiration() {
 		"Carpe Diem!",
 		"You keep clicking that button. I do not think it does what you think it does.",
 		"You are kind. You are smart. You are important.",
+		"Remember, the Force will be with you. Always.",
 		"Help me Obi-Wan Kenobi. You're my only hope.",
 		"Wax on, wax off.",
 		"Chewie, we're home.",
 		"No one can eat fifty eggs",
+		"Challenge accepted!",
 		"Each morning we are born again. What we do today is what matters most.",
 		"Begin at once to live, and count each separate day as a separate life.",
 		"Respond; don’t react. Listen; don’t talk. Think; don’t assume.",
@@ -183,10 +184,10 @@ function getInspiration() {
 		"Terrific, a six-demon bag. Sensational. What's in it, Egg?<br> Wind, fire, all that kind of thing!",
 		"Yo! Gimme a goat.",
 		"Code and know you are coding.",
-		"A foolish consistency is the hobgoblin of little minds, adored by little statesmen and philosophers and divines. <br>[Try something new today!]",
+		"A foolish consistency is the hobgoblin of little minds. <br>[Try something new today!]",
 		"Work like your fingers are kissing the code.",
 		"Be mindful. Be greatful. Be positive. Be true. Be kind.",
-		"You are safe. You are loved. You beautiful.",
+		"You are safe. You are loved. You are beautiful.",
 		"You are what Marcellus Wallace looks like."
 	];
 	var index = Math.floor(Math.random() * quotes.length);
