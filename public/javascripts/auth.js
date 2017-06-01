@@ -59,6 +59,7 @@ $(document).ready(function () {
 
 	$("#signout-button").click(function () {
 		firebase.auth().signOut();
+		// window.location.reload(true);
 	});
 
 	firebase.auth().onAuthStateChanged(firebaseUser => {
@@ -78,7 +79,10 @@ $(document).ready(function () {
 			$.cookie("uid", firebaseUser.uid);
 			checkForInterruptedSession(firebaseUser.uid);
 		} else {
-			if (window.zenTimerState) window.zenTimerState.user = null;
+			window.zenTimerState.user = null;
+			window.zenTimerState.currentWorkSession = null;
+			window.zenTimerState.lastSessionStart = null;
+			window.zenTimerState.tableData = null;
 			$("#user-name").html("");
 			$("#signin-button").show();
 			$("#create-user-button").show();
@@ -88,6 +92,7 @@ $(document).ready(function () {
 			$.removeCookie("uid");
 		}
 		setButtonState();
+		mountTable(generateTable(generateTableRows(window.zenTimerState.tableData)));
 	});
 });
 

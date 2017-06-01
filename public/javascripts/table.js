@@ -182,7 +182,8 @@ function generateTableRows(tableData) {
 						"<td class='" + TD_TIME + "'>" + currentAchievement.date + " " + currentAchievement.time + "</td>",
 						"<td class='" + TD_INTENTION + "'>" + currentAchievement.intention + "</td>",
 						"<td class='" + TD_CLASS + "'>" + currentAchievement.achievement + "</td>",
-						"<td class='" + TD_DELETE + "'><div id='delete-row-" + achievementKey + "' class='btn btn-raised zen-btn' onclick='remove(\"" + currentAchievement.session + "/achievements/" + achievementKey + "\")'><i class='remove icon delete-icon delete-button'></i></div></td>",
+						"<td class='" + TD_DELETE + "'><div id='delete-row-" + achievementKey + "' class='btn btn-raised zen-btn delete-btn' onclick='remove(\"" + currentAchievement.session + "/achievements/" + achievementKey + "\")'><i class='remove icon delete-icon delete-button'></i></div></td>",
+						// "<td class='" + TD_DELETE + "'><div id='delete-row-" + achievementKey + "' class='btn btn-raised zen-btn' onclick='remove(\"" + currentAchievement.session + "/achievements/" + achievementKey + "\")'><i class='remove icon delete-icon delete-button'></i></div></td>",
 						"</tr>"
 					].join('\n'));
 			}

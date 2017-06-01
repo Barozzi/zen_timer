@@ -64,7 +64,7 @@ function setButtonState() {
 	};
 	buttonStates[status].setState();
 	// Only allow adding achievements if there is a workSession to attach them to
-	if (window.zenTimerState && window.zenTimerState.currentWorkSession) {
+	if (window.zenTimerState && window.zenTimerState.user && window.zenTimerState.currentWorkSession) {
 		$("#add-achievement-button").prop("disabled", false);
 	} else {
 		$("#add-achievement-button").prop("disabled", true);
@@ -111,7 +111,7 @@ function timesUp() {
 function startTimer(time) {
 	window.zenTimerState.inProgress = true;
 	setButtonState();
-	var remaining = "25:00";
+	const remaining = "25:00";
 	$("#timer").html(remaining);
 	$("#timer-dimmer").html(remaining);
 	$("#inspiration").html(rockPaperScissorsLizardSpock() + "<br><br>" + getInspiration());
@@ -138,13 +138,13 @@ function createNewWorkSession() {
 }
 
 function decrementCounter() {
-	var remaining = $("#timer").text();
+	let remaining = $("#timer").text();
 	if (remaining == "00:00") {
 		timesUp();
 		return;
 	}
-	var minutes = remaining.slice(0, 2);
-	var seconds = remaining.slice(3, 5);
+	let minutes = remaining.slice(0, 2);
+	let seconds = remaining.slice(3, 5);
 	if (seconds == "00") {
 		minutes = zeroPad(Number(minutes) - 1);
 		seconds = "59";

@@ -74,7 +74,6 @@ h1 {
 
 .zen-table {
 	padding-top: 0.03em;
-	/*border: 1px solid rgba(203, 191, 122, 1);*/
 }
 
 .zen-table-style {
@@ -97,7 +96,6 @@ h1 {
 }
 
 #timer-dimmer #inspiration {
-	/*font-family: 'Oxygen', sans-serif;*/
 	font-family: 'Oregano', cursive;
 }
 
@@ -113,18 +111,13 @@ h1 {
      width: 20px;
 }
 
-th {
-
-	background-color: rgba(62, 86, 34, 1) !important;
-}
-
 td {
-	background-color: rgba(112, 146, 85, 1) !important;
+	background: rgba(149, 180, 106, 1);
 
 }
 
 .table-total {
-	background-color: rgba(62, 86, 34, 1);
+	background-color: rgba(112, 146, 85, 1);
 }
 
 .table-time {
@@ -142,6 +135,10 @@ td {
 
 .delete-button {
 	margin: 0 !important;
+}
+
+.delete-btn {
+	background-color: rgba(112, 146, 85, 1);
 }
 
 .session-column {
@@ -168,8 +165,9 @@ td {
 
 .ui.table thead th {
 	border-bottom: 1px solid rgba(88, 77, 61, 1);
-	background: rgba(203, 191, 122, 1);
-	color: rgba(203, 191, 122, 1);
+	background: rgba(112, 146, 85, 1);
+	color: black;
+	text-align:center;
 }
 
 .ui.table {
@@ -184,7 +182,6 @@ td {
 .snackbar {
 	padding: 25px;
 	background-color: #323232;
-	/*background: rgba(112, 146, 85, 1);*/
 	color: white;
 	font: 14px;
 	font-weight: bold;
