@@ -87,6 +87,7 @@ $(document).ready(function () {
 			$("#password-input").show();
 			$.removeCookie("uid");
 		}
+		setButtonState();
 	});
 });
 
@@ -94,18 +95,17 @@ $(document).ready(function () {
 function checkForInterruptedSession(uid) {
 	firebase.database().ref("tableData/" + uid)
 		.orderByChild("date").limitToLast(1).once("value", snap => {
+			if (!snap.val()) return;
 			const sessionId = Object.keys(snap.val())[0];
 			const snapVal = snap.val()[sessionId];
 			const lastSessionStart = new Date(snapVal.date + " " +snapVal.time);
 			const minutesRemaining = 25 - (Math.floor((new Date() - lastSessionStart) / 60000));
 			if (minutesRemaining > 0) {
-				$("#resume-session-button").show();
-				$("#start-button").hide();
 				window.zenTimerState.lastSessionStart = lastSessionStart;
-				window.zenTimerState.minutesRemaining = minutesRemaining;
 				window.zenTimerState.icon = snapVal.icon;
 				window.zenTimerState.inspiration = snapVal.inspiration;
 				window.zenTimerState.currentWorkSession = sessionId;
+				setButtonState();
 			}
 		});
 }

@@ -5,44 +5,120 @@ $(document).ready(function () {
 	$("#signin-link").click(function () {
 		$("#signin-modal").modal("show");
 	});
-	$("#dimm-button").hide();
-	$("#add-achievement-button").hide();
+	setButtonState();
 });
 
 
+function setButtonState() {
+	const status = getCurrentState();
+	console.log("setButtonState - currentState: " + status);
+	const buttonStates = {
+		"Guest": {
+			desc: "No Auth; No Active Work Session;",
+			setState: function () {
+				$("#dimm-button").hide();
+				$("#add-achievement-button").hide();
+				$("#start-button").show();
+				$("#resume-session-button").hide();
+			}
+		},
+		"Guest-In-Progress": {
+			desc: "No Auth; Active Work Session;",
+			setState: function () {
+				$("#dimm-button").show();
+				$("#add-achievement-button").hide();
+				$("#start-button").hide();
+				$("#resume-session-button").hide();
+			}
+
+		},
+		"Logged-In": {
+			desc: "Auth; No Active Session",
+			setState: function () {
+				$("#dimm-button").hide();
+				$("#add-achievement-button").hide();
+				$("#start-button").show();
+				$("#resume-session-button").hide();
+				$("#add-achievement-button").hide();
+			}
+		},
+		"In-Progress": {
+			desc: "Auth; Active Session",
+			setState: function () {
+				$("#dimm-button").show();
+				$("#add-achievement-button").show();
+				$("#start-button").hide();
+				$("#resume-session-button").hide();
+				$("#add-achievement-button").show();
+			}
+		},
+		"Complete": {
+			desc: "Auth; Completed Work Session",
+			setState: function () {
+				$("#dimm-button").hide();
+				$("#add-achievement-button").show();
+				$("#start-button").show();
+				$("#resume-session-button").hide();
+				$("#add-achievement-button").show();
+			}
+		},
+		"Interrupted": {
+			desc: "Auth; Timer Stopped due to page refresh",
+			setState: function () {
+				$("#dimm-button").hide();
+				$("#add-achievement-button").hide();
+				$("#start-button").hide();
+				$("#resume-session-button").show();
+				$("#add-achievement-button").show();
+			}
+		}
+	};
+	buttonStates[status].setState();
+}
+
+function getCurrentState() {
+	const zts = window.zenTimerState;
+	if (!zts) return "Guest";
+	if (!zts.user && !zts.inProgress) return "Guest";
+	if (!zts.user && zts.inProgress) return "Guest-In-Progress";
+	if (zts.user && zts.inProgress) return "In-Progress";
+	if (zts.user && !zts.inProgress && !zts.currentWorkSession) return "Logged-In";
+	if (zts.user && !zts.inProgress && zts.currentWorkSession && !zts.lastSessionStart) return "Complete";
+	if (zts.user && !zts.inProgress && zts.currentWorkSession && zts.lastSessionStart) return "Interrupted";
+	return "Guest"; // default
+}
+
 function resumeSession() {
+	// Calculate minutesRemaining
 	const minutesRemaining = 25 - (Math.floor((new Date() - window.zenTimerState.lastSessionStart) / 60000));
 	if (minutesRemaining < 1) {
 		startTimer();
 		return;
 	}
 	let remaining = zeroPad(minutesRemaining) + ":00";
-	$("#timer").html(remaining);
 	$("#timer-dimmer").html(remaining);
-	$("#dimm-button").show();
-	$("#resume-session-button").hide();
+	$("#timer").html(remaining);
 	$("#inspiration").html(window.zenTimerState.icon + "<br><br>" + window.zenTimerState.inspiration);
-	$("#add-achievement-button").show();
 	dimmPage();
+	// Update state
+	window.zenTimerState.inProgress = true;
+	setButtonState();
+	delete window.zenTimerState.lastSessionStart;
 	setTimeout(decrementCounter, 1000);
 }
 
 function timesUp() {
-	// var audio = new Audio('/sounds/tinsha.wav');
-	$("#start-button").toggle();
-	$("#dimm-button").toggle();
-	$("#resume-session-button").hide();
+	window.zenTimerState.inProgress = false;
+	setButtonState();
 	notifyUser();
-	// audio.play();
 }
 
 function startTimer(time) {
+	window.zenTimerState.inProgress = true;
+	setButtonState();
 	var remaining = "25:00";
 	$("#timer").html(remaining);
 	$("#timer-dimmer").html(remaining);
-	$("#add-achievement-button").show();
-	$("#start-button").toggle();
-	$("#dimm-button").toggle();
 	$("#inspiration").html(rockPaperScissorsLizardSpock() + "<br><br>" + getInspiration());
 	createNewWorkSession();
 	dimmPage();
@@ -98,13 +174,11 @@ function notifyUser() {
 	if (!("Notification" in window)) {
 		alert("zen_timer: It is time to pause in reflection.");
 	}
-
 	// Let's check whether notification permissions have already been granted
 	else if (Notification.permission === "granted") {
 		// If it's okay let's create a notification
 		var notification = new Notification("zen_timer: You have attained completeness.");
 	}
-
 	// Otherwise, we need to ask the user for permission
 	else if (Notification.permission !== "denied") {
 		Notification.requestPermission(function (permission) {
