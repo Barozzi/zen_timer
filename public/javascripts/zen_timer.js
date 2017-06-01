@@ -17,7 +17,6 @@ function setButtonState() {
 			desc: "No Auth; No Active Work Session;",
 			setState: function () {
 				$("#dimm-button").hide();
-				$("#add-achievement-button").hide();
 				$("#start-button").show();
 				$("#resume-session-button").hide();
 			}
@@ -26,54 +25,50 @@ function setButtonState() {
 			desc: "No Auth; Active Work Session;",
 			setState: function () {
 				$("#dimm-button").show();
-				$("#add-achievement-button").hide();
 				$("#start-button").hide();
 				$("#resume-session-button").hide();
 			}
-
 		},
 		"Logged-In": {
 			desc: "Auth; No Active Session",
 			setState: function () {
 				$("#dimm-button").hide();
-				$("#add-achievement-button").hide();
 				$("#start-button").show();
 				$("#resume-session-button").hide();
-				$("#add-achievement-button").hide();
 			}
 		},
 		"In-Progress": {
 			desc: "Auth; Active Session",
 			setState: function () {
 				$("#dimm-button").show();
-				$("#add-achievement-button").show();
 				$("#start-button").hide();
 				$("#resume-session-button").hide();
-				$("#add-achievement-button").show();
 			}
 		},
 		"Complete": {
 			desc: "Auth; Completed Work Session",
 			setState: function () {
 				$("#dimm-button").hide();
-				$("#add-achievement-button").show();
 				$("#start-button").show();
 				$("#resume-session-button").hide();
-				$("#add-achievement-button").show();
 			}
 		},
 		"Interrupted": {
 			desc: "Auth; Timer Stopped due to page refresh",
 			setState: function () {
 				$("#dimm-button").hide();
-				$("#add-achievement-button").hide();
 				$("#start-button").hide();
 				$("#resume-session-button").show();
-				$("#add-achievement-button").show();
 			}
 		}
 	};
 	buttonStates[status].setState();
+	// Only allow adding achievements if there is a workSession to attach them to
+	if (window.zenTimerState && window.zenTimerState.currentWorkSession) {
+		$("#add-achievement-button").prop("disabled", false);
+	} else {
+		$("#add-achievement-button").prop("disabled", true);
+	}
 }
 
 function getCurrentState() {
